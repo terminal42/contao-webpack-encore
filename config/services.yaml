@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    Terminal42\WebpackEncoreBundle\EventListener\TemplateHelperListener:
+        arguments:
+            - '@webpack_encore.twig_entry_files_extension'
+
+    Terminal42\WebpackEncoreBundle\EventListener\InsertTagsListener:
+        arguments:
+            - '@webpack_encore.twig_entry_files_extension'
