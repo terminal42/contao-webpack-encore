@@ -21,6 +21,6 @@ $GLOBALS['TL_DCA']['tl_layout']['fields'] += [
         'options' => ['TL_HEAD', 'TL_BODY'],
         'reference' => &$GLOBALS['TL_LANG']['tl_layout']['encoreScriptPosition'],
         'eval' => ['tl_class' => 'w50'],
-        'sql' => "varchar(8) NOT NULL default ''",
+        'sql' => "varchar(8) NOT NULL default 'TL_HEAD'",
     ],
 ];
