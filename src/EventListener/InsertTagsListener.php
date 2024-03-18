@@ -25,12 +25,6 @@ class InsertTagsListener
         $name = array_shift($args);
 
         switch ($name) {
-            case 'encore_entry_js_files':
-                return $this->twigExtension->getWebpackJsFiles(...$args);
-
-            case 'encore_entry_css_files':
-                return $this->twigExtension->getWebpackCssFiles(...$args);
-
             case 'encore_entry_script_tags':
                 return $this->twigExtension->renderWebpackScriptTags(...$args);
 
