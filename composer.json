@@ -1,6 +1,6 @@
 {
     "name": "terminal42/contao-webpack-encore",
-    "description": "Adds Symfony Webpack Encore support to Contao.",
+    "description": "Adds Symfony Webpack Encore integration to Contao page layouts.",
     "keywords": ["contao", "symfony", "webpack", "encore"],
     "homepage": "https://github.com/terminal42/contao-webpack-encore",
     "type": "contao-bundle",
@@ -44,6 +44,13 @@
     "autoload": {
         "psr-4": {
             "Terminal42\\WebpackEncoreBundle\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "contao/manager-plugin": true,
+            "terminal42/contao-build-tools": true
         }
     },
     "extra": {
