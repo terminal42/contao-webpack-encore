@@ -31,10 +31,12 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface
         }
 
         if (empty($extensionConfigs) && (new Filesystem())->exists($container->getParameter('kernel.project_dir').'/web/layout/entrypoints.json')) {
-            return [
+            $extensionConfigs = [
                 ['output_path' => '%kernel.project_dir%/web/layout']
             ];
         }
+
+        $container->setParameter('terminal42_webpack_encore.output_path', $extensionConfigs[0]['output_path'].'/entrypoints.json');
 
         return $extensionConfigs;
     }
