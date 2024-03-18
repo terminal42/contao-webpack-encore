@@ -4,7 +4,7 @@ services:
 
     Terminal42\WebpackEncoreBundle\EventListener\EntrypointOptionsListener:
         arguments:
-            - '%terminal42_webpack_encore.output_path%'
+            - '%terminal42_webpack_encore.entrypoints_json%'
 
     Terminal42\WebpackEncoreBundle\EventListener\GeneratePageListener:
         arguments:

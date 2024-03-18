@@ -11,6 +11,8 @@ use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Config\ContainerBuilder;
 use Contao\ManagerPlugin\Config\ExtensionPluginInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
+use Symfony\Component\Finder\Finder;
 use Symfony\WebpackEncoreBundle\WebpackEncoreBundle;
 use Terminal42\WebpackEncoreBundle\Terminal42WebpackEncoreBundle;
 
@@ -30,14 +32,68 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface
             return $extensionConfigs;
         }
 
-        if (empty($extensionConfigs) && (new Filesystem())->exists($container->getParameter('kernel.project_dir').'/web/layout/entrypoints.json')) {
-            $extensionConfigs = [
-                ['output_path' => '%kernel.project_dir%/web/layout'],
-            ];
+        $outputPath = null;
+
+        foreach (array_reverse($extensionConfigs) as $config) {
+            if (isset($config['output_path'])) {
+                $outputPath = $config['output_path'];
+                break;
+            }
         }
 
-        $container->setParameter('terminal42_webpack_encore.output_path', $extensionConfigs[0]['output_path'].'/entrypoints.json');
+        if (null === $outputPath) {
+            $projectDir = $container->getParameter('kernel.project_dir');
+            $outputPath = $this->findOutputPath($projectDir) ?: '%kernel.project_dir%/public/build';
+
+            if (empty($extensionConfigs)) {
+                $extensionConfigs[] = [];
+            }
+
+            $extensionConfigs[0]['output_path'] = $outputPath;
+        }
+
+        $container->setParameter('terminal42_webpack_encore.entrypoints_json', $outputPath.'/entrypoints.json');
 
         return $extensionConfigs;
+    }
+
+    private function findOutputPath(string $projectDir): ?string
+    {
+        $publicDir = $this->findPublicDir($projectDir);
+
+        $finder = new Finder();
+        $finder->files()->name('entrypoints.json')->depth('< 2')->in($publicDir);
+
+        if (!$finder->hasResults()) {
+            return null;
+        }
+
+        $files = $finder->getIterator();
+        $files->rewind();
+
+        return '%kernel.project_dir%/'.Path::makeRelative($files->current()->getPath(), $projectDir);
+    }
+
+    private function findPublicDir(string $projectDir): string
+    {
+        $fs = new Filesystem();
+
+        if ($fs->exists($composerJsonFilePath = Path::join($projectDir, 'composer.json'))) {
+            $composerConfig = json_decode(file_get_contents($composerJsonFilePath), true, 512, JSON_THROW_ON_ERROR);
+
+            if (null !== ($publicDir = $composerConfig['extra']['public-dir'] ?? null)) {
+                return Path::join($projectDir, $publicDir);
+            }
+        }
+
+        if ($fs->exists($publicDir = Path::join($projectDir, 'public'))) {
+            return $publicDir;
+        }
+
+        if ($fs->exists($publicDir = Path::join($projectDir, 'web'))) {
+            return $publicDir;
+        }
+
+        return Path::join($projectDir, 'public');
     }
 }
