@@ -19,7 +19,7 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface
     public function getBundles(ParserInterface $parser): array
     {
         return [
-            (new BundleConfig(WebpackEncoreBundle::class)),
+            new BundleConfig(WebpackEncoreBundle::class),
             (new BundleConfig(Terminal42WebpackEncoreBundle::class))->setLoadAfter([ContaoCoreBundle::class, WebpackEncoreBundle::class]),
         ];
     }
@@ -32,7 +32,7 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface
 
         if (empty($extensionConfigs) && (new Filesystem())->exists($container->getParameter('kernel.project_dir').'/web/layout/entrypoints.json')) {
             $extensionConfigs = [
-                ['output_path' => '%kernel.project_dir%/web/layout']
+                ['output_path' => '%kernel.project_dir%/web/layout'],
             ];
         }
 

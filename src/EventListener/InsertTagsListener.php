@@ -19,6 +19,9 @@ class InsertTagsListener
         $this->twigExtension = $twigExtension;
     }
 
+    /**
+     * @return string|false
+     */
     public function __invoke(string $tag)
     {
         $args = explode('::', $tag);

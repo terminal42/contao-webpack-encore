@@ -23,27 +23,19 @@ class TemplateHelperListener
     public function __invoke(Template $template): void
     {
         if (!isset($template->encore_entry_js_files)) {
-            $template->encore_entry_js_files = function (...$args) {
-                return $this->twigExtension->getWebpackJsFiles(...$args);
-            };
+            $template->encore_entry_js_files = fn (...$args) => $this->twigExtension->getWebpackJsFiles(...$args);
         }
 
         if (!isset($template->encore_entry_css_files)) {
-            $template->encore_entry_css_files = function (...$args) {
-                return $this->twigExtension->getWebpackCssFiles(...$args);
-            };
+            $template->encore_entry_css_files = fn (...$args) => $this->twigExtension->getWebpackCssFiles(...$args);
         }
 
         if (!isset($template->encore_entry_script_tags)) {
-            $template->encore_entry_script_tags = function (...$args) {
-                return $this->twigExtension->renderWebpackScriptTags(...$args);
-            };
+            $template->encore_entry_script_tags = fn (...$args) => $this->twigExtension->renderWebpackScriptTags(...$args);
         }
 
         if (!isset($template->encore_entry_link_tags)) {
-            $template->encore_entry_link_tags = function (...$args) {
-                return $this->twigExtension->renderWebpackLinkTags(...$args);
-            };
+            $template->encore_entry_link_tags = fn (...$args) => $this->twigExtension->renderWebpackLinkTags(...$args);
         }
     }
 }

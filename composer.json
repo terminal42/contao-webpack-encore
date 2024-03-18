@@ -33,7 +33,7 @@
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0",
-        "contao/easy-coding-standard": "^3.0"
+        "terminal42/contao-build-tools": "dev-main"
     },
     "conflict": {
         "contao/manager-plugin": "<2.0 || >=3.0"
@@ -45,10 +45,5 @@
     },
     "extra": {
         "contao-manager-plugin": "Terminal42\\WebpackEncoreBundle\\ContaoManager\\Plugin"
-    },
-    "scripts": {
-        "cs-fixer": [
-            "vendor/bin/ecs check src/ --fix --ansi"
-        ]
     }
 }
