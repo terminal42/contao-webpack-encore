@@ -27,12 +27,12 @@
         "forum": "https://community.contao.org"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.2",
         "ext-json": "*",
-        "contao/core-bundle": "^4.9 || ^5",
-        "symfony/webpack-encore-bundle": "^1.12",
-        "symfony/finder": "^4 || ^5 || ^6",
-        "symfony/filesystem": "^4 || ^5 || ^6"
+        "contao/core-bundle": "^4.13 || ^5.3",
+        "symfony/webpack-encore-bundle": "^2.2.0",
+        "symfony/finder": "^5 || ^6",
+        "symfony/filesystem": "^5 || ^6"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0",
